@@ -1,16 +1,12 @@
-import axios from "axios";
 import DataTable from "react-data-table-component";
 import { BounceLoader } from "react-spinners";
-import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
 
 import GradientCircle from "../Components/GradientCircle.jsx";
 import Navbar from "../Components/Navbar.jsx";
 
-import { BASE_URL } from "../Utils/Constants.js";
-
 import "../assets/css/deck.css";
 import { FaRegTrashCan, FaArrowRightArrowLeft } from "react-icons/fa6";
+import { useDeckSbContext } from "../contexts/deckSbContext.jsx";
 
 const customStyles = {
   table: {
@@ -52,11 +48,16 @@ const customStyles = {
 };
 
 const Deck = () => {
-  const [decks, setDecks] = useState([]);
-  const [loadingDeck, setLoadingDeck] = useState(true);
-
-  const [sideboard, setSideboard] = useState([]);
-  const [loadingSideBoard, setLoadingSideboard] = useState(true);
+  const {
+    decks,
+    loadingDeck,
+    sideboard,
+    loadingSideBoard,
+    moveToSb,
+    moveToDeck,
+    removeFromDeck,
+    removeFromSb,
+  } = useDeckSbContext();
 
   const columnsDeck = [
     {
@@ -65,7 +66,12 @@ const Deck = () => {
         const amount = row.amount_deck;
         return (
           <>
-            <input type="number" defaultValue={amount} className="input-num" />
+            <input
+              type="number"
+              defaultValue={amount}
+              className="input-num"
+              onChange={(e) => console.log(e.target.value)}
+            />
           </>
         );
       },
@@ -101,6 +107,7 @@ const Deck = () => {
             type="number"
             defaultValue={Number(row.amount_sideboard)}
             className="input-num"
+            onChange={(e) => console.log(e.target.value)}
           />
         </>
       ),
@@ -134,27 +141,7 @@ const Deck = () => {
         ...card,
         amount_sideboard: "1",
       };
-      axios
-        .post(`${BASE_URL}contactmsyt/add-sideboard`, value, {
-          headers: {
-            Authorization: `Berear ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            toast.success("Card added to Sideboard successfully", {
-              position: "top-center",
-              autoClose: 3000,
-              theme: "dark",
-              closeOnClick: true,
-              pauseOnFocusLoss: false,
-              //bodyStyle:{} //TODO: Style it
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      moveToSb(value);
     }
     if (toTable === "toDeck") {
       const value = {
@@ -162,119 +149,20 @@ const Deck = () => {
         id: card.apiId,
         amount_deck: "1",
       };
-      axios
-        .post(`${BASE_URL}contactmsyt/add-deck`, value, {
-          headers: {
-            Authorization: `Berear ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            toast.success("Card added to Sideboard successfully", {
-              position: "top-center",
-              autoClose: 3000,
-              theme: "dark",
-              closeOnClick: true,
-              pauseOnFocusLoss: false,
-              //bodyStyle:{} //TODO: Style it
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      moveToDeck(value);
     }
   };
 
   const handleRemove = (fromTable, card) => {
-    console.log("***", fromTable, card);
     if (fromTable === "fromDeck") {
       console.log("from Deck");
 
-      axios
-        .put(`${BASE_URL}contactmsyt/delete-deck`, card, {
-          headers: {
-            Authorization: `Berear ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            toast.success("Card added to Sideboard successfully", {
-              position: "top-center",
-              autoClose: 3000,
-              theme: "dark",
-              closeOnClick: true,
-              pauseOnFocusLoss: false,
-              //bodyStyle:{} //TODO: Style it
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      removeFromDeck(card);
     }
     if (fromTable === "fromSideboard") {
-      axios
-        .put(`${BASE_URL}contactmsyt/delete-sideboard`, card, {
-          headers: {
-            Authorization: `Berear ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            toast.success("Card added to Sideboard successfully", {
-              position: "top-center",
-              autoClose: 3000,
-              theme: "dark",
-              closeOnClick: true,
-              pauseOnFocusLoss: false,
-              //bodyStyle:{} //TODO: Style it
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      removeFromSb(card);
     }
   };
-
-  useEffect(() => {
-    setLoadingDeck(true);
-    setLoadingSideboard(true);
-    axios
-      .get(`${BASE_URL}contactmsyt/deck`, {
-        headers: {
-          Authorization: `Berear ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.success) {
-          setDecks(res.data.decks);
-          setLoadingDeck(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingDeck(false);
-      });
-
-    axios
-      .get(`${BASE_URL}contactmsyt/sideboard`, {
-        headers: {
-          Authorization: `Berear ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        if (res.data.success) {
-          setSideboard(res.data.sideboard);
-          setLoadingSideboard(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingSideboard(false);
-      });
-  }, []);
 
   return (
     <>

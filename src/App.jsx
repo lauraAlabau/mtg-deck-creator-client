@@ -15,6 +15,7 @@ import Deck from "./Pages/Deck.jsx";
 import Logout from "./Pages/Logout.jsx";
 import ProtectedRoutes from "./Components/ProtectedRoutes.jsx";
 import NotFound from "./Pages/NotFound.jsx";
+import { DeckSbProvider } from "./contexts/deckSbContext.jsx";
 
 export const UserContext = createContext(null);
 
@@ -51,7 +52,9 @@ const router = createBrowserRouter([
     path: "/deck",
     element: (
       <ProtectedRoutes>
-        <Deck />
+        <DeckSbProvider>
+          <Deck />
+        </DeckSbProvider>
       </ProtectedRoutes>
     ),
   },
