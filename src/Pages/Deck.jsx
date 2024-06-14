@@ -79,7 +79,7 @@ const Deck = () => {
     {
       name: "Name",
       selector: (row) => <p className="cell-text">{row.name}</p>,
-      grow: 3,
+      grow: 2,
     },
     {
       name: "Action",
@@ -95,7 +95,6 @@ const Deck = () => {
           />
         </div>
       ),
-      //right: true,
     },
   ];
   const columnsSideBoard = [
