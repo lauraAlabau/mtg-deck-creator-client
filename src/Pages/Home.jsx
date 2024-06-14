@@ -14,9 +14,7 @@ const Home = () => {
       <div className="home">
         <div className="home-container">
           {user ? (
-            <p className="home-title">
-              Welcome back {user.name.toUpperCase()}
-            </p>
+            <p className="home-title">Welcome back {user.name.toUpperCase()}</p>
           ) : (
             <p className="home-title">
               Welcome to <br />
@@ -28,22 +26,21 @@ const Home = () => {
             be ready for your next tournament.
           </p>
 
-          {!user ?
-            (
-              <>
-                <div>
-                  <LoginSigninBtn buttonType={"login"} />
-                </div>
-                <div className="divider">
-                  <div className="line"></div>
-                  <p>Or</p>
-                  <div className="line"></div>
-                </div>
-                <div>
-                  <LoginSigninBtn buttonType={"signin"} />
-                </div>
-              </>
-            ) : null}
+          {!user ? (
+            <div className="home-log">
+              <div className="home-btn">
+                <LoginSigninBtn buttonType={"login"} />
+              </div>
+              <div className="divider">
+                <div className="line"></div>
+                <p>Or</p>
+                <div className="line"></div>
+              </div>
+              <div className="home-btn">
+                <LoginSigninBtn buttonType={"signin"} />
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </>

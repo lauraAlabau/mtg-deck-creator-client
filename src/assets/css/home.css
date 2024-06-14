@@ -52,3 +52,46 @@
   padding: 0 10px;
   color: #6c6c6c;
 }
+
+@media (max-width: 420px) {
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+  }
+
+  .home-container {
+    border: 1px solid #4d4d4d;
+    border-radius: 10px;
+    padding-inline: 20px;
+    padding-block: 40px;
+  }
+
+  .home-title {
+    font-size: 30px;
+    padding-bottom: 10px;
+  }
+
+  .home-summary {
+    padding-bottom: 20px;
+  }
+
+  .home-log {
+    display: flex;
+    align-items: center;
+  }
+
+  .home-btn {
+    width: 50%;
+  }
+
+  .home-btn p {
+    display: none;
+  }
+
+  .divider {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+}
