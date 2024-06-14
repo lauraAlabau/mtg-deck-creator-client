@@ -92,3 +92,24 @@
   align-items: center;
   justify-content: flex-start;
 }
+
+@media (max-width: 420px) {
+  .navbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-inline: 20px;
+  }
+
+  .navbar-left img {
+    width: 100px;
+  }
+
+  .navbar-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+  }
+}
