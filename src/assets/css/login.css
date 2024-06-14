@@ -100,3 +100,53 @@ input[type="password"]::placeholder {
   color: rgb(255, 102, 102);
   padding-top: 5px;
 }
+
+@media (max-width: 420px) {
+  .bg {
+    background-image: none;
+  }
+
+  .view-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-side {
+    display: none;
+  }
+
+  .right-side {
+    width: 80vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .form-container {
+    border-radius: 10px;
+    padding-inline: 40px;
+    padding-block: 40px;
+    width: 90vw;
+  }
+
+  .form-title {
+    font-size: 24px;
+    padding-bottom: 20px;
+  }
+
+  .form-summary {
+    display: none;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    height: 46px;
+  }
+
+  .form-container .footer {
+    padding-top: 30px;
+  }
+}
